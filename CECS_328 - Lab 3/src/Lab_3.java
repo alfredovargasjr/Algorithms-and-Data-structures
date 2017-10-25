@@ -12,36 +12,48 @@ public class Lab_3 {
 //            a[i] = (randInt(-100, 100));
 //        }
         System.out.println(Arrays.toString(a));
-        System.out.println(quick_sort(a, 0, a.length - 1, k - 1, k - 1));
-        Arrays.sort(a);
+        quick_search_k(a, 0, a.length - 1, k - 1);
+        quick_sort(a, 0, a.length - 1);
+        //Arrays.sort(a);
         System.out.println(Arrays.toString(a));
 
     }
 
-    public static boolean quick_sort(int[] array, int left, int right, int k, int K){
-        if(right - left < 1) {
-            if (k == 0) {
-                System.out.println("K: " + array[right]);
-                System.out.println("K L: " + array[left]);
-                return true;
-            } else
-                return false;
+    public static void quick_search_k(int[] array, int left, int right, int k){
+        System.out.println();
+        System.out.println(Arrays.toString(array));
+        if(left >= right){
+            if(k == 0) {
+                System.out.println("K: " + array[left]);
+                return;
+            }
+            else
+                return;
         }
-        int pivot = med(array[left], array[(left + right / 2)], array[right]);
-        System.out.println("Pivot: " + pivot);
-        int indexOfPartition = partition(array, left, right, pivot);
-        System.out.println("Index: " + indexOfPartition);
-        System.out.println("Current K: " + k);
-        if(k == indexOfPartition){
-            System.out.println("K: " + indexOfPartition + "  " + array[k]);
-            return true;
+        int pivot = med(array[left], array[(left + right) / 2], array[right]);
+        int partition_index = partition(array, left, right, pivot);
+        if(k == partition_index){
+            System.out.println(array[k]);
+            return;
         }
-        if(k < indexOfPartition)
-            quick_sort(array, left, indexOfPartition - 1, k, K);
-        if(k > indexOfPartition)
-            quick_sort(array, indexOfPartition + 1, right, k - (indexOfPartition + 1), K);
-        return false;
+        if(k < partition_index){
+            quick_search_k(array, left, partition_index - 1, k);
+        }
+        if(k > partition_index){
+            System.out.println("L:" + (partition_index + 1) + "\tR:" + right);
+            quick_search_k(array, partition_index + 1, right, k - (partition_index + 1));
+        }
+        return;
      }
+
+    public static void quick_sort(int[] array, int left, int right){
+        if(left >= right)
+            return;
+        int pivot =  med(array[left],array[(left + right) / 2],array[right]);
+        int indexOfPartition = partition(array, left, right, pivot);
+        quick_sort(array, left, indexOfPartition - 1);
+        quick_sort(array, indexOfPartition, right);
+    }
 
     /**
      * find the final index of the pivot
