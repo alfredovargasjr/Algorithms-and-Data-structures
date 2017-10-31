@@ -19,23 +19,6 @@ public class Lab2 {
          for(int i = 0; i < n; i++) {
              a[i] = (randInt(-7000, 7000));
          }
-//         //copy array 'a' into these two new arrays so that they can be compared
-//         int[] a_quicksort = new int[a.length];
-//         int[] a_insertionsort = new int[a.length];
-//         for(int i = 0; i < a.length; i++){
-//             a_insertionsort[i] = a[i];
-//             a_quicksort[i] = a[i];
-//         }
-//         quick_sort(a_quicksort, 0, a_quicksort.length -  1);
-//         insertion_sort(a_insertionsort);
-//         for(int i = 0; i < a_insertionsort.length; i++){
-//             System.out.print(a_insertionsort[i] + " ");
-//         }
-//         System.out.println("");
-//         for(int i = 0; i < a_quicksort.length; i++){
-//             System.out.print(a_quicksort[i] + " ");
-//         }
-         //Find the average running time, 100 repetitions
          n = 10000;
          a = new int[n];
          int loops = 100;

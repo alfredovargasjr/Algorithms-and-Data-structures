@@ -79,6 +79,7 @@ public class Lab_3 {
                  right--;
              }
          }
+         System.out.println("Left Partition: " + left);
          return left;
      }
 
