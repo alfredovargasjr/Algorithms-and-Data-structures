@@ -12,32 +12,39 @@ public class Lab4_Heaps {
         for(int i = 0; i < n; i++){
             array[i] = randInt(-10000,10000);
         }
-        array = build_MaxHeap(array);
+        array = build_MaxHeap(array, array.length);
+        System.out.println(Arrays.toString(array));
+        heap_sort(array);
         System.out.println(Arrays.toString(array));
 
     }
 
     public static void heap_sort(int[] array){
-        build_MaxHeap(array);
+        int right = array.length;
+        while(right > 0){
+            System.out.println(right);
+            swap(array, 0, right - 1);
+            build_MaxHeap(array, right--);
+        }
     }
 
-    public static int[] build_MaxHeap(int[] array){
-        for(int i = array.length - 1; i > 0; i--){
-            max_Heapify(array, i);
+    public static int[] build_MaxHeap(int[] array, int  right){
+        for(int i = right; i > 0; i--){
+            max_Heapify(array,i);
         }
         return array;
     }
 
     public static void max_Heapify(int[] array, int root){
         int max = root;
-        int left = 2 * max;
+        int left = (2 * root);
         int right = left + 1;
-        if(left <= array.length - 1 && array[left] > array[max])
+        if(left <= array.length - 1 && array[left - 1] > array[max - 1])
             max = left;
-        if(right <= array.length - 1 && array[right] > array[max])
+        if(right <= array.length - 1 && array[right - 1] > array[max - 1])
             max = right;
         if(root != max) {
-            swap(array, max, root);
+            swap(array, max - 1, root - 1);
             max_Heapify(array, max);
         }
     }
