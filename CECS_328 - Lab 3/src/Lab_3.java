@@ -1,30 +1,28 @@
 import java.util.Arrays;
 import java.util.Random;
+import java.util.Scanner;
 
 public class Lab_3 {
     public static void main(String[] args){
-        System.out.print("Enter K: ");
+        System.out.print("Enter n: ");
+        Scanner in = new Scanner(System.in);
+        int n = in.nextInt();
         int k = 3;
-        int n = 5;
-//        int[] a = new int[n];
-        int[] a = {96, 38, 87, -94, -22};
-//        for(int i = 0; i < n; i++) {
-//            a[i] = (randInt(-100, 100));
-//        }
-        System.out.println(Arrays.toString(a));
+        int[] a = new int[n];
+//        int[] a = {96, 38, 87, -94, -22};
+        for(int i = 0; i < n; i++) {
+            a[i] = (randInt(-100, 100));
+        }
         quick_search_k(a, 0, a.length - 1, k - 1);
         quick_sort(a, 0, a.length - 1);
-        //Arrays.sort(a);
         System.out.println(Arrays.toString(a));
 
     }
 
     public static void quick_search_k(int[] array, int left, int right, int k){
-        System.out.println();
-        System.out.println(Arrays.toString(array));
+//        System.out.println("IN");
         if(left >= right){
             if(k == 0) {
-                System.out.println("K: " + array[left]);
                 return;
             }
             else
@@ -33,17 +31,16 @@ public class Lab_3 {
         int pivot = med(array[left], array[(left + right) / 2], array[right]);
         int partition_index = partition(array, left, right, pivot);
         if(k == partition_index){
-            System.out.println(array[k]);
+            System.out.println(array[partition_index]);
             return;
         }
         if(k < partition_index){
             quick_search_k(array, left, partition_index - 1, k);
         }
         if(k > partition_index){
-            System.out.println("L:" + (partition_index + 1) + "\tR:" + right);
             quick_search_k(array, partition_index + 1, right, k - (partition_index + 1));
         }
-        return;
+        return ;
      }
 
     public static void quick_sort(int[] array, int left, int right){
@@ -65,13 +62,13 @@ public class Lab_3 {
      */
      public static int partition(int[] array, int left, int right, int pivot){
          while(left <= right) {
-             while(array[left] < pivot) {
+             while (array[left] < pivot) {
                  left++;
              }
-             while(array[right] > pivot){
+             while (array[right] > pivot) {
                  right--;
              }
-             if(left <= right){
+             if (left <= right) {
                  int temp = array[left];
                  array[left] = array[right];
                  array[right] = temp;
@@ -79,7 +76,6 @@ public class Lab_3 {
                  right--;
              }
          }
-         System.out.println("Left Partition: " + left);
          return left;
      }
 
