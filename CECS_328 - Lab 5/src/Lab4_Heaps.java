@@ -6,16 +6,68 @@ public class Lab4_Heaps {
 
     public static void main(String[] args){
         System.out.println("Enter n: ");
+        int loops = 100;
         Scanner in = new Scanner(System.in);
         int n = in.nextInt();
         int[] array = new int[n];
-        for(int i = 0; i < n; i++){
-            array[i] = randInt(-10000,10000);
+
+        //  estimate running time of heap_sort
+        long startTime = System.nanoTime();
+        long startTimeNewArray;
+        long TimeNewArray = 0;
+        for(int i = 0; i < loops; i++) {
+            startTimeNewArray = System.nanoTime();
+            randomArray_Int(array);
+            TimeNewArray = TimeNewArray + (System.nanoTime() - startTimeNewArray);
+            array = build_MaxHeap(array, array.length / 2, array.length);
+            heap_sort(array);
         }
-        array = build_MaxHeap(array, array.length, array.length);
-        heap_sort(array);
+        long endTime = System.nanoTime();
+        long runTime = endTime - startTime;
+        double nanoSeconds = Math.pow(10, 9);
+        System.out.println("Heap_Sort Average Running Time (n = " + n + ", loops = " + loops + "): " + ((runTime - TimeNewArray) / nanoSeconds /loops) + " seconds");
+        
+        //  find average running time of insertion sort
+        startTime = System.nanoTime();
+        TimeNewArray = 0;
+        for(int i = 0; i < loops; i++) {
+            startTimeNewArray = System.nanoTime();
+            randomArray_Int(array);
+            TimeNewArray = TimeNewArray + (System.nanoTime() - startTimeNewArray);
+            insertion_sort(array);
+        }
+        endTime = System.nanoTime();
+        runTime = endTime - startTime;
+        System.out.println("Insertion_Sort Average Running Time (n = " + n + ", loops = " + loops + "): " + ((runTime - TimeNewArray) / nanoSeconds /loops) + " seconds");
+
+        randomArray_Int(array);
+        insertion_sort(array);
         System.out.println(Arrays.toString(array));
 
+        //find average running time of quick sort
+        startTime = System.nanoTime();
+        TimeNewArray = 0;
+        for(int i = 0; i < loops; i++) {
+            startTimeNewArray = System.nanoTime();
+            randomArray_Int(array);
+            quick_sort(array, 0, array.length - 1);
+        }
+        quick_sort(array, 0, array.length - 1);
+        endTime = System.nanoTime();
+        runTime = endTime - startTime;
+        System.out.println("Quick_Sort Average Running Time (n = " + n + ", loops = " + loops + "): " + ((runTime - TimeNewArray) / nanoSeconds /loops) + " seconds");
+
+
+    }
+
+    /**
+     * Create random integers within the array
+     * @param array
+     */
+    public static void randomArray_Int(int[] array){
+        for (int j = 0; j < array.length; j++) {
+            array[j] = randInt(-10000, 10000);
+        }
     }
 
     /**
@@ -32,7 +84,6 @@ public class Lab4_Heaps {
     public static void heap_sort(int[] array){
         int right = array.length;
         while(right > 0){
-            System.out.println(Arrays.toString(array));
             swap(array, 0, right - 1);
             right--;
             build_MaxHeap(array, right, right);
@@ -82,6 +133,59 @@ public class Lab4_Heaps {
                 swap(array, max - 1, parent - 1);
                 max_Heapify(array, max, right);
             }
+    }
+
+    /**
+     * insertion sort algorithm
+     * @param array
+     */
+    public static void insertion_sort(int[] array){
+        for(int i = 1; i < array.length; i++) {
+            int current = array[i];
+            int prev = i - 1;
+            while (prev >= 0 && array[prev] > current) {
+                array[prev + 1] = array[prev];
+                prev--;
+            }
+            array[prev + 1] = current;
+        }
+    }
+
+    /**
+     * quick sort algorithm
+     * @param array
+     * @param left
+     * @param right
+     */
+    public static void quick_sort(int[] array, int left, int right){
+        if(left >= right)
+            return;
+        int pivot = med(array[left], array[(left + right) / 2], array[right]);
+        int indexOfPivot = partition(array, left, right, pivot);
+        quick_sort(array, left, indexOfPivot - 1);
+        quick_sort(array, indexOfPivot, right);
+        
+    }
+
+    public static int partition(int[] array, int left, int right, int pivot) {
+        while(left <= right){
+            while(array[left] < pivot) {
+                left++;
+            }
+            while(array[right] > pivot) {
+                right--;
+            }
+            if(left <= right) {
+                swap(array, left, right);
+                left++;
+                right--;
+            }
+        }
+        return left;
+    }
+
+    public static int med(int a, int b, int c) {
+        return Math.max(Math.min(a,b), Math.min(Math.max(a,b),c));
     }
 
     /**
