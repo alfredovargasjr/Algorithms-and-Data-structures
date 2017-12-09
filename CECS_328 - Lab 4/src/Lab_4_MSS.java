@@ -3,7 +3,7 @@ import java.util.Arrays;
 import java.util.Random;
 import java.util.Scanner;
 
-public class lab4 {
+public class Lab_4_MSS {
 
     /**
      * compare the results of the Max Subsequence Summation of an array, using a O(n) and O(nlogn) algorithm
